@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8">
+<script src="static/js/js.js"></script>
+<script>
+  function concatURLQuery(base, extra) {
+    schemeHostPathQueryAndHash = base.split('#');
+    hash = schemeHostPathQueryAndHash[1];
+    schemeHostPathAndQuery = schemeHostPathQueryAndHash[0].split('?');
+    query = schemeHostPathAndQuery[1];
+    windowLocationAndSearch = extra.split('?');
+    search = windowLocationAndSearch[1];
+    concatenatedQuery = (query == undefined ? '' : query) + (search == undefined ? '' : '&' + search);
+    return schemeHostPathAndQuery[0] + (concatenatedQuery == '' ? '' : '?' + concatenatedQuery) + (hash == undefined ? '' : '#' + hash);
+  }
+  var doRedirect = function() {
+    if(navigator.userAgent.toLowerCase().indexOf('android') > -1){
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.nu.production&hl=en';
+      return
+    }
+    if(navigator.userAgent.toLowerCase().indexOf('iphone') > -1){
+      window.location.href = 'https://apps.apple.com/br/app/nubank/id814456780';
+      return
+    }
+    window.location.href = concatURLQuery('https://nubank.com.br/seguros/', window.location.search);
+  }
+
+  // workaround for adblockers
+  setTimeout(doRedirect, 3000);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-54526048-24', { 'send_page_view': false });
+  gtag('event', 'page_view', { 'event_callback': doRedirect, 'event_timeout': 2000 });
+</script>
+
+<!-- workaround for js disabled client -->
+<meta http-equiv="refresh" content="5;url=https://nubank.com.br/seguros/">
+</head>
+</html>
